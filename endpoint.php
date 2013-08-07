@@ -11,7 +11,7 @@ require_once 'parameters.php';
 require_once 'repository.php';
 require_once 'tokens.php';
 
-const MAX_RESULTS = 10;
+const MAX_RESULTS = OAI_MAX_RESULTS;
 
 function handleRequest($params, Repository $repository, TokenStore $tokenstore=null) {
   
