@@ -41,6 +41,9 @@ function appendRecord($node, Header $header, $metadata_xml) {
   if ($metadata_xml) {
     $md = appendElement($r, '', 'metadata');
     $metadata = new \DOMDocument();
+
+    $metadata_xml = preg_replace ('/[^\x{0009}\x{000a}\x{000d}\x{0020}-\x{D7FF}\x{E000}-\x{FFFD}]+/u', ' ', $metadata_xml);
+
     $metadata->loadXML($metadata_xml);
     $imported = $node->ownerDocument->importNode($metadata->firstChild, true);
     $md->appendChild($imported);
