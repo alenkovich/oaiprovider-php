@@ -32,8 +32,14 @@ function _stripquery($uri) {
 }
 
 function getBaseDocument($params) {
-  $doc = new \DOMDocument('1.0', 'utf-8');
+  $doc = new \DOMDocument('1.0', 'UTF-8');
   $doc->formatOutput = true;
+
+  //creating an xslt adding processing line
+  $xslt = $doc->createProcessingInstruction('xml-stylesheet', 'type="text/xsl" href="oai2.xsl"');
+
+  //adding it to the xml
+  $doc->appendChild($xslt);
 
   $root = $doc->createElementNS("http://www.openarchives.org/OAI/2.0/", "OAI-PMH");
   $root->setAttributeNS("http://www.w3.org/2000/xmlns/", "xmlns:xsi", "http://www.w3.org/2001/XMLSchema-instance");

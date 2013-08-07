@@ -8,6 +8,7 @@ interface TokenStore {
 
 class DatabaseTokenStore implements TokenStore {
   function assertTable() {
+/* MySQL 
     DB::query("
       CREATE TABLE IF NOT EXISTS oai_resumptiontoken (
         `token` varchar(255) NOT NULL,
@@ -16,6 +17,18 @@ class DatabaseTokenStore implements TokenStore {
         PRIMARY KEY (`token`)
       )
      ");
+*/
+
+/* PgSQL */
+    DB::query("
+      CREATE TABLE IF NOT EXISTS oai_resumptiontoken (
+        token varchar(255) NOT NULL,
+        data text NOT NULL,
+        expirationDate timestamp NOT NULL,
+        CONSTRAINT tokenpri PRIMARY KEY (token)
+      )
+     ");
+
   }
   
   function storeToken($token, $data, $expirationDate) {
@@ -49,9 +62,9 @@ class DatabaseTokenStore implements TokenStore {
 }
 
 class DB {
-  const DSN = 'mysql:host=localhost;dbname=oai_tokens';
-  const USER = 'root';
-  const PASS = '';
+  const DSN = DB_DSN;
+  const USER = DB_USER;
+  const PASS = DB_PASS;
 
   public static function getConnection() {
     static $conn;
